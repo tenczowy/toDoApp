@@ -7,6 +7,10 @@ html {
   box-sizing: border-box;
 }
 
+html {
+  font-family: 'Poppins', sans-serif;
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -39,49 +43,55 @@ body {
   justify-content: space-between;
   min-height: 20rem;
   padding: 1rem;
-  margin: 1rem;
-  max-width: 20rem;
   background-color: #4ad66d;
   border-radius: 5px;
 }
 
 .to-do-list {
   width: 100%;
+  position: relative;
+  list-style: none;
+  padding: 0;
 }
 
-.to-do-list tr td {
+.to-do-list li {
   display: flex;
-  position: relative;
-
   justify-content: space-between;
   background-color: #dad7cd;
   border-radius: 2px;
   padding: 0.5rem;
-  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
 }
 
 .icons {
   display: flex;
+  align-items: center;
   flex-wrap: nowrap;
 }
 
 .completed {
+  position: relative;
   opacity: 0.75;
 }
 
-.completed::after {
-  position: absolute;
+.completed::before {
   content: '';
-  width: 100%;
-  border-bottom: 3px solid black;
+  top: 50%;
+  transform: translateY(-50%);
   left: 0;
-  top: 45%;
+  width: 100%;
+  height: 5px;
+  background-color: #323232;
+  position: absolute;
 }
 
 .app-add-new {
   display: grid;
   align-items: end;
   grid-template-columns: 4fr 1fr;
+  margin-bottom: 1rem;
+  row-gap: 0.5rem;
 }
 
 .add-new-textarea {
@@ -92,9 +102,19 @@ body {
   margin-right: 0.5rem;
 }
 
-.add-new-button {
-  font-weight: 600;
+.add-new-button,
+.clear-list {
+  font-weight: 700;
   border: none;
   height: 2rem;
   border-radius: 5px;
+}
+
+.clear-list {
+  grid-column: 1 / 3;
+}
+
+ion-icon[name='close']:hover {
+  width: 2rem;
+  height: 2rem;
 }
