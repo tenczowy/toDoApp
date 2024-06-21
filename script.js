@@ -1,8 +1,4 @@
-let allTasks = [
-  { id: 1, task: 'make food', completed: false },
-  { id: 2, task: 'go to work', completed: false },
-  { id: 3, task: 'have fun', completed: 1 },
-];
+let allTasks = [];
 
 const listOfTasks = document.querySelector('.to-do-list');
 
@@ -12,8 +8,9 @@ const closeBtn = document.querySelector('.close');
 
 function displayTasks() {
   listOfTasks.innerHTML = '';
+
   allTasks.forEach((task) => {
-    const htmlTemplate = `
+    let htmlTemplate = `
     <li ${task.completed ? 'class=completed' : null} id='${task.id}'>
               ${task.task}
               <div class="icons">
@@ -25,9 +22,12 @@ function displayTasks() {
               </div>
             </li>
     `;
-
     listOfTasks.insertAdjacentHTML('beforeend', htmlTemplate);
   });
+
+  if (!listOfTasks.innerHTML) {
+    listOfTasks.innerHTML = 'Add your first shopping item';
+  }
 }
 
 function toggleCompleted(id) {
