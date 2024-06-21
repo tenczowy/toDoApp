@@ -4,8 +4,81 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TO DO APP</title>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
     <link rel="stylesheet" href="style.css" />
     <script type="module" src="script.js"></script>
   </head>
-  <body></body>
+  <body>
+    <div class="app-container">
+      <div class="app-main">
+        <div class="app-header">
+          <ion-icon name="pizza-outline" class="icon"></ion-icon>
+          <h1>Groceries</h1>
+        </div>
+        <div class="app-body">
+          <table class="to-do-list">
+            <tr>
+              <td>
+                Bread
+                <div class="icons">
+                  <ion-icon
+                    name="ellipse-outline"
+                    class="icon-not-complited"
+                  ></ion-icon>
+                  <ion-icon name="close"></ion-icon>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Bread Lorem ipsum dolor sit amet
+                <div class="icons">
+                  <ion-icon
+                    name="ellipse-outline"
+                    class="icon-not-complited"
+                  ></ion-icon>
+                  <ion-icon name="close"></ion-icon>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Bread
+                <div class="icons">
+                  <ion-icon
+                    name="ellipse-outline"
+                    class="icon-not-complited"
+                  ></ion-icon>
+                  <ion-icon name="close"></ion-icon>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="completed">
+                Ursus C360
+                <div class="icons">
+                  <ion-icon
+                    name="ellipse-outline"
+                    class="icon-completed"
+                  ></ion-icon>
+                  <ion-icon name="close"></ion-icon>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="app-add-new">
+        <input type="text" name="task" id="task" class="add-new-textarea" />
+        <button class="add-new-button">ADD</button>
+      </div>
+    </div>
+  </body>
 </html>

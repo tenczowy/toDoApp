@@ -1,0 +1,100 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #40916c;
+}
+
+.app-header {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-header h1 {
+  text-transform: uppercase;
+  margin: 1rem 0;
+}
+
+.app-header .icon {
+  vertical-align: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 20rem;
+  padding: 1rem;
+  margin: 1rem;
+  max-width: 20rem;
+  background-color: #4ad66d;
+  border-radius: 5px;
+}
+
+.to-do-list {
+  width: 100%;
+}
+
+.to-do-list tr td {
+  display: flex;
+  position: relative;
+
+  justify-content: space-between;
+  background-color: #dad7cd;
+  border-radius: 2px;
+  padding: 0.5rem;
+  font-size: 1.4rem;
+}
+
+.icons {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.completed {
+  opacity: 0.75;
+}
+
+.completed::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  border-bottom: 3px solid black;
+  left: 0;
+  top: 45%;
+}
+
+.app-add-new {
+  display: grid;
+  align-items: end;
+  grid-template-columns: 4fr 1fr;
+}
+
+.add-new-textarea {
+  margin-top: 1rem;
+  height: 2rem;
+  border: none;
+  border-radius: 5px;
+  margin-right: 0.5rem;
+}
+
+.add-new-button {
+  font-weight: 600;
+  border: none;
+  height: 2rem;
+  border-radius: 5px;
+}
