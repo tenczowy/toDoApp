@@ -1,80 +1,85 @@
-let allTasks = [];
+class ToDoApp {
+  #allTasks;
+  #listOfTasks = document.querySelector('.to-do-list');
+  #clearListBtn = document.querySelector('.clear-list');
+  #addNewTaskBtn = document.querySelector('.add-new-button');
+  #closeBtn = document.querySelector('.close');
 
-const listOfTasks = document.querySelector('.to-do-list');
+  constructor() {
+    this.#allTasks = [];
 
-const clearListBtn = document.querySelector('.clear-list');
-const addNewTaskBtn = document.querySelector('.add-new-button');
-const closeBtn = document.querySelector('.close');
+    this.displayTasks();
+    this.#clearListBtn.addEventListener('click', (e) => this.clearList());
+    this.#addNewTaskBtn.addEventListener('click', (e) => this.addTask());
+    this.#listOfTasks.addEventListener('click', (e) => {
+      const id = e.target.closest('li').id;
 
-function displayTasks() {
-  listOfTasks.innerHTML = '';
+      if (e.target.name === 'close') {
+        this.removeTask(id);
+      } else {
+        this.toggleCompleted(id);
+      }
+    });
+  }
 
-  allTasks.forEach((task) => {
-    let htmlTemplate = `
-    <li ${task.completed ? 'class=completed' : null} id='${task.id}'>
-              ${task.task}
-              <div class="icons">
-                <ion-icon
-                  name="${task.completed ? 'ellipse' : 'ellipse-outline'}"
-                  class="icon-not-complited"
-                ></ion-icon>
-                <ion-icon name="close"></ion-icon>
-              </div>
-            </li>
-    `;
-    listOfTasks.insertAdjacentHTML('beforeend', htmlTemplate);
-  });
+  displayTasks() {
+    this.#listOfTasks.innerHTML = '';
 
-  if (!listOfTasks.innerHTML) {
-    listOfTasks.innerHTML = 'Add your first shopping item';
+    this.#allTasks.forEach((task) => {
+      let htmlTemplate = `
+      <li ${task.completed ? 'class=completed' : null} id='${task.id}'>
+                ${task.task}
+                <div class="icons">
+                  <ion-icon
+                    name="${task.completed ? 'ellipse' : 'ellipse-outline'}"
+                    class="icon-not-complited"
+                  ></ion-icon>
+                  <ion-icon name="close"></ion-icon>
+                </div>
+              </li>
+      `;
+      this.#listOfTasks.insertAdjacentHTML('beforeend', htmlTemplate);
+    });
+
+    if (!this.#listOfTasks.innerHTML) {
+      this.#listOfTasks.innerHTML = 'Add your first item to shopping list.';
+    }
+  }
+
+  toggleCompleted(id) {
+    const task = this.#allTasks.find((el) => el.id == id);
+    if (task) {
+      task.completed = !task.completed;
+    }
+    this.displayTasks();
+  }
+
+  removeTask(taskId) {
+    this.#allTasks = this.#allTasks.filter((task) => task.id != taskId);
+    this.displayTasks();
+  }
+
+  addTask() {
+    const enteredTask = document.querySelector('.add-new-textarea');
+    if (!enteredTask.value) return;
+
+    this.#allTasks.push({
+      id: this.#generateRandomID(),
+      task: enteredTask.value,
+      completed: false,
+    });
+    enteredTask.value = '';
+    this.displayTasks();
+  }
+
+  clearList() {
+    this.#listOfTasks.innerHTML = '';
+    this.#allTasks.length = 0;
+  }
+
+  #generateRandomID() {
+    return Math.random().toString(36).substr(2, 9);
   }
 }
 
-function toggleCompleted(id) {
-  const task = allTasks.find((el) => el.id == id);
-  if (task) {
-    task.completed = !task.completed;
-  }
-  displayTasks();
-}
-
-function removeTask(taskId) {
-  allTasks = allTasks.filter((task) => task.id != taskId);
-  displayTasks();
-}
-
-function addTask() {
-  const enteredTask = document.querySelector('.add-new-textarea');
-  if (!enteredTask.value) return;
-
-  allTasks.push({
-    id: generateRandomID(),
-    task: enteredTask.value,
-    completed: false,
-  });
-  enteredTask.value = '';
-  displayTasks();
-}
-
-function clearList() {
-  listOfTasks.innerHTML = '';
-  allTasks.length = 0;
-  console.log(allTasks);
-}
-
-function generateRandomID() {
-  return Math.random().toString(36).substr(2, 9);
-}
-
-displayTasks();
-clearListBtn.addEventListener('click', (e) => clearList());
-addNewTaskBtn.addEventListener('click', (e) => addTask());
-listOfTasks.addEventListener('click', (e) => {
-  const id = e.target.closest('li').id;
-
-  if (e.target.name === 'close') {
-    removeTask(id);
-  } else {
-    toggleCompleted(id);
-  }
-});
+const toDoApp = new ToDoApp();
