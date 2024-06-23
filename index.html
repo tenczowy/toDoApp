@@ -23,22 +23,47 @@
   </head>
   <body>
     <div class="app-container">
-      <div class="app-main">
-        <div class="app-header">
-          <ion-icon name="pizza-outline" class="icon"></ion-icon>
-          <h1 class="list-header">Groceries</h1>
+      <div class="list-view">
+        <div class="app-main">
+          <div class="app-header app-header-list hidden">
+            <ion-icon name="pizza-outline" class="icon"></ion-icon>
+            <h1 class="list-header">Groceries</h1>
+          </div>
+          <div class="app-header category-header">
+            <ion-icon name="copy-outline" class="icon"></ion-icon>
+            <h1 class="list-header">Category</h1>
+          </div>
+          <div class="app-body hidden">
+            <ul class="to-do-list" id="to-do-list">
+              <!-- List items will be generated later -->
+            </ul>
+          </div>
+          <div class="app-body category-body">
+            <ul class="list-categories">
+              <!-- Categories generated with js -->
+            </ul>
+          </div>
         </div>
-        <div class="app-body">
-          <ul class="to-do-list">
-            <!-- List items will be generated later -->
-          </ul>
+        <div class="app-add-new hidden">
+          <input type="text" name="task" id="task" class="add-new-textarea" />
+          <button class="add-new-button" id="add-new-button">ADD</button>
+          <button class="clear-list" id="clear-list">CLEAR</button>
+          <button class="go-back" id="go-back">Back</button>
         </div>
-      </div>
-      <div class="app-add-new">
-        <input type="text" name="task" id="task" class="add-new-textarea" />
-        <button class="add-new-button">ADD</button>
-        <button class="clear-list">CLEAR</button>
+        <div class="app-add-new app-add-new-category">
+          <input
+            type="text"
+            name="task"
+            id="category-input"
+            class="add-new-textarea"
+          />
+          <button class="add-new-button" id="new-category">ADD CATEGORY</button>
+        </div>
       </div>
     </div>
   </body>
 </html>
+
+<!-- 
+<ion-icon name="pizza-outline" class="icon"></ion-icon>  PIZZA ICON
+-->
