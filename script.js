@@ -1,44 +1,58 @@
-//Load the categories and make the buttons add category not list item
-//after clicking category load all list items and make input form add list item
-//add 'go back button' -> after back load categories again
-
 class ToDoApp {
-  #allTasks;
-  #categories;
-  #listOfTasks = document.querySelector('#to-do-list');
-  #clearListBtn = document.querySelector('#clear-list');
-  #addNewTaskBtn = document.querySelector('#add-new-button');
-  #closeBtn = document.querySelector('.close');
-  #listCategories = document.querySelector('.list-categories');
-  #appHeader = document.querySelector('.app-header-list');
-  #categoryBody = document.querySelector('.category-body');
-  #backBtn = document.querySelector('#go-back');
-  #currentCategory;
-  #newCatBtn = document.querySelector('#new-category');
-  #categoryInput = document.querySelector('#category-input');
-  #deleteCat = document.querySelector('#delete-cat');
+  #allTasks = [];
+  #categories = ['Groceries', 'ToDoS', 'Work', 'School'];
+  #currentCategory = '';
 
   constructor() {
-    this.#allTasks = [];
-    this.#categories = ['Groceries', 'ToDoS', 'Work', 'School'];
+    this.cacheDOMElements();
+    this.bindEvents();
     this.displayCategories();
-    this.#clearListBtn.addEventListener('click', (e) => this.clearList());
-    this.#addNewTaskBtn.addEventListener('click', (e) => this.addTask());
-    this.#listOfTasks.addEventListener('click', (e) => {
-      this.iconsListener(e);
-    });
-    this.#categoryBody.addEventListener('click', (e) => {
-      this.#currentCategory = e.target.innerHTML;
-      this.generateHeader(this.#currentCategory);
-      this.displayTasks();
-      this.toggleHidden();
-    });
-    this.#backBtn.addEventListener('click', (e) => this.toggleHidden());
-    this.#newCatBtn.addEventListener('click', (e) => this.addCategory());
-    this.#deleteCat.addEventListener('click', (e) => this.deleteCategory());
   }
 
-  iconsListener(e) {
+  cacheDOMElements() {
+    this.elements = {
+      listOfTasks: document.querySelector('#to-do-list'),
+      clearListBtn: document.querySelector('#clear-list'),
+      addNewTaskBtn: document.querySelector('#add-new-button'),
+      categoryBody: document.querySelector('.category-body'),
+      backBtn: document.querySelector('#go-back'),
+      newCatBtn: document.querySelector('#new-category'),
+      categoryInput: document.querySelector('#category-input'),
+      deleteCat: document.querySelector('#delete-cat'),
+      listCategories: document.querySelector('.list-categories'),
+      appHeader: document.querySelector('.app-header-list'),
+    };
+  }
+
+  bindEvents() {
+    this.elements.clearListBtn.addEventListener(
+      'click',
+      this.clearList.bind(this)
+    );
+    this.elements.addNewTaskBtn.addEventListener(
+      'click',
+      this.addTask.bind(this)
+    );
+    this.elements.listOfTasks.addEventListener(
+      'click',
+      this.handleTaskClick.bind(this)
+    );
+    this.elements.categoryBody.addEventListener(
+      'click',
+      this.handleCategoryClick.bind(this)
+    );
+    this.elements.backBtn.addEventListener('click', this.toggleView.bind(this));
+    this.elements.newCatBtn.addEventListener(
+      'click',
+      this.addCategory.bind(this)
+    );
+    this.elements.deleteCat.addEventListener(
+      'click',
+      this.deleteCategory.bind(this)
+    );
+  }
+
+  handleTaskClick(e) {
     {
       const id = e.target.closest('li').id;
 
@@ -51,14 +65,21 @@ class ToDoApp {
   }
 
   addCategory() {
-    const newCategory = this.#categoryInput.value;
+    const newCategory = this.elements.categoryInput.value;
     this.#categories.push(newCategory);
     this.displayCategories();
-    this.#categoryInput.value = '';
+    this.elements.categoryInput.value = '';
+  }
+
+  handleCategoryClick(e) {
+    this.#currentCategory = e.target.textContent;
+    this.generateHeader(this.#currentCategory);
+    this.displayTasks();
+    this.toggleView();
   }
 
   deleteCategory() {
-    this.toggleHidden();
+    this.toggleView();
     this.#categories = this.#categories.filter(
       (cat) => cat != this.#currentCategory
     );
@@ -68,10 +89,9 @@ class ToDoApp {
     console.log(this.#allTasks);
     this.#currentCategory = '';
     this.displayCategories();
-    console.log(this.#categories);
   }
 
-  toggleHidden() {
+  toggleView() {
     document
       .querySelectorAll('.app-header')
       .forEach((el) => el.classList.toggle('hidden'));
@@ -84,22 +104,25 @@ class ToDoApp {
   }
 
   displayCategories() {
-    this.#listCategories.innerHTML = '';
+    this.elements.listCategories.innerHTML = '';
 
     this.#categories.forEach((cat) => {
       let htmlTemplate = `
       <li>${cat}</li>
       `;
-      this.#listCategories.insertAdjacentHTML('beforeend', htmlTemplate);
+      this.elements.listCategories.insertAdjacentHTML(
+        'beforeend',
+        htmlTemplate
+      );
     });
 
-    if (!this.#listOfTasks.innerHTML) {
-      this.#listOfTasks.innerHTML = 'Add your first category.';
+    if (!this.elements.listOfTasks.innerHTML) {
+      this.elements.listOfTasks.innerHTML = 'Add your first category.';
     }
   }
 
   displayTasks() {
-    this.#listOfTasks.innerHTML = '';
+    this.elements.listOfTasks.innerHTML = '';
 
     this.#allTasks
       .filter((task) => task.category == this.#currentCategory)
@@ -116,22 +139,16 @@ class ToDoApp {
                 </div>
               </li>
       `;
-        this.#listOfTasks.insertAdjacentHTML('beforeend', htmlTemplate);
+        this.elements.listOfTasks.insertAdjacentHTML('beforeend', htmlTemplate);
       });
 
-    if (!this.#listOfTasks.innerHTML) {
-      this.#listOfTasks.innerHTML = 'Add your first item to the list.';
+    if (!this.elements.listOfTasks.innerHTML) {
+      this.elements.listOfTasks.innerHTML = 'Add your first item to the list.';
     }
-
-    console.log(this.#allTasks);
   }
 
   generateHeader(category) {
-    this.#appHeader.innerHTML = '';
-    let htmlTemplate = `
-      <h1 class="list-header">${category}</h1>
-    `;
-    this.#appHeader.insertAdjacentHTML('beforeend', htmlTemplate);
+    this.elements.appHeader.innerHTML = `<h1 class="list-header">${category}</h1>`;
   }
 
   toggleCompleted(id) {
@@ -162,11 +179,11 @@ class ToDoApp {
   }
 
   clearList() {
-    this.#listOfTasks.innerHTML = '';
+    this.elements.listOfTasks.innerHTML = '';
     this.#allTasks = this.#allTasks.filter(
       (task) => task.category != this.#currentCategory
     );
-    this.toggleHidden();
+    this.toggleView();
   }
 
   #generateRandomID() {
