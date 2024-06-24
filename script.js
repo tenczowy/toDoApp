@@ -55,7 +55,7 @@ class ToDoApp {
 
   handleTaskClick(e) {
     {
-      const id = e.target.closest('li').id;
+      const id = e.target.closest('li')?.id;
 
       if (e.target.name === 'close') {
         this.removeTask(id);
@@ -76,7 +76,9 @@ class ToDoApp {
   }
 
   handleCategoryClick(e) {
+    if (e.target.closest('li') === null) return;
     this.#currentCategory = e.target.textContent;
+    console.log(this.#currentCategory);
     this.saveToLocalStorage();
     this.generateHeader(this.#currentCategory);
     this.displayTasks();
@@ -90,7 +92,6 @@ class ToDoApp {
     this.#allTasks = this.#allTasks.filter(
       (task) => task.category != this.#currentCategory
     );
-    console.log(this.#allTasks);
     this.#currentCategory = '';
     this.saveToLocalStorage();
     this.displayCategories();
@@ -122,8 +123,8 @@ class ToDoApp {
       );
     });
 
-    if (!this.elements.listOfTasks.innerHTML) {
-      this.elements.listOfTasks.innerHTML = 'Add your first category.';
+    if (!this.elements.listCategories.innerHTML) {
+      this.elements.listCategories.innerHTML = 'Add your first category.';
     }
   }
 

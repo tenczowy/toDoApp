@@ -11,12 +11,19 @@ body {
 .app-container {
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   margin: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
   background-color: #fff;
+}
+
+@media (max-width: 420px) {
+  .app-container {
+    margin: 0;
+    max-width: none;
+  }
 }
 
 .app-main {
