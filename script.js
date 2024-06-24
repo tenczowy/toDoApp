@@ -16,6 +16,7 @@ class ToDoApp {
   #currentCategory;
   #newCatBtn = document.querySelector('#new-category');
   #categoryInput = document.querySelector('#category-input');
+  #deleteCat = document.querySelector('#delete-cat');
 
   constructor() {
     this.#allTasks = [];
@@ -34,6 +35,7 @@ class ToDoApp {
     });
     this.#backBtn.addEventListener('click', (e) => this.toggleHidden());
     this.#newCatBtn.addEventListener('click', (e) => this.addCategory());
+    this.#deleteCat.addEventListener('click', (e) => this.deleteCategory());
   }
 
   iconsListener(e) {
@@ -53,6 +55,20 @@ class ToDoApp {
     this.#categories.push(newCategory);
     this.displayCategories();
     this.#categoryInput.value = '';
+  }
+
+  deleteCategory() {
+    this.toggleHidden();
+    this.#categories = this.#categories.filter(
+      (cat) => cat != this.#currentCategory
+    );
+    this.#allTasks = this.#allTasks.filter(
+      (task) => task.category != this.#currentCategory
+    );
+    console.log(this.#allTasks);
+    this.#currentCategory = '';
+    this.displayCategories();
+    console.log(this.#categories);
   }
 
   toggleHidden() {
