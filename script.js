@@ -6,6 +6,7 @@ class ToDoApp {
   constructor() {
     this.cacheDOMElements();
     this.bindEvents();
+    this.loadFromLocalStorage();
     this.displayCategories();
   }
 
@@ -65,21 +66,24 @@ class ToDoApp {
   }
 
   addCategory() {
-    const newCategory = this.elements.categoryInput.value;
-    this.#categories.push(newCategory);
-    this.displayCategories();
+    const newCategory = this.elements.categoryInput.value.trim();
+    if (newCategory && !this.#categories.includes(newCategory)) {
+      this.#categories.push(newCategory);
+      this.saveToLocalStorage();
+      this.displayCategories();
+    }
     this.elements.categoryInput.value = '';
   }
 
   handleCategoryClick(e) {
     this.#currentCategory = e.target.textContent;
+    this.saveToLocalStorage();
     this.generateHeader(this.#currentCategory);
     this.displayTasks();
     this.toggleView();
   }
 
   deleteCategory() {
-    this.toggleView();
     this.#categories = this.#categories.filter(
       (cat) => cat != this.#currentCategory
     );
@@ -88,7 +92,9 @@ class ToDoApp {
     );
     console.log(this.#allTasks);
     this.#currentCategory = '';
+    this.saveToLocalStorage();
     this.displayCategories();
+    this.toggleView();
   }
 
   toggleView() {
@@ -156,11 +162,13 @@ class ToDoApp {
     if (task) {
       task.completed = !task.completed;
     }
+    this.saveToLocalStorage();
     this.displayTasks();
   }
 
   removeTask(taskId) {
     this.#allTasks = this.#allTasks.filter((task) => task.id != taskId);
+    this.saveToLocalStorage();
     this.displayTasks();
   }
 
@@ -175,6 +183,7 @@ class ToDoApp {
       category: this.#currentCategory,
     });
     enteredTask.value = '';
+    this.saveToLocalStorage();
     this.displayTasks();
   }
 
@@ -183,11 +192,25 @@ class ToDoApp {
     this.#allTasks = this.#allTasks.filter(
       (task) => task.category != this.#currentCategory
     );
+    this.saveToLocalStorage();
+    this.displayTasks();
     this.toggleView();
   }
 
   #generateRandomID() {
     return Math.random().toString(36).substr(2, 9);
+  }
+
+  saveToLocalStorage() {
+    localStorage.setItem('toDoAppCategories', JSON.stringify(this.#categories));
+    localStorage.setItem('toDoAppTasks', JSON.stringify(this.#allTasks));
+  }
+
+  loadFromLocalStorage() {
+    const categories = JSON.parse(localStorage.getItem('toDoAppCategories'));
+    const tasks = JSON.parse(localStorage.getItem('toDoAppTasks'));
+    if (categories) this.#categories = categories;
+    if (tasks) this.#allTasks = tasks;
   }
 }
 
